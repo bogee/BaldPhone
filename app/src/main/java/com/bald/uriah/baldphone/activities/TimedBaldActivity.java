@@ -18,6 +18,7 @@ package com.bald.uriah.baldphone.activities;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Build;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -31,8 +32,15 @@ public abstract class TimedBaldActivity extends BaldActivity {
 
         final Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true);
+            setTurnScreenOn(true);
+        } else {
+            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        }
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         new Handler().postDelayed(() -> window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON), screenTimeout());
 

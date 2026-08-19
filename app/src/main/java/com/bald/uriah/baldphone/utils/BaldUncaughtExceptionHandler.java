@@ -22,10 +22,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.bald.uriah.baldphone.activities.CrashActivity;
-
-import org.acra.ACRA;
 
 public class BaldUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private final Context context;
@@ -47,8 +46,7 @@ public class BaldUncaughtExceptionHandler implements Thread.UncaughtExceptionHan
         }
         baldPrefs.edit().putLong(BPrefs.LAST_CRASH_KEY, currentTime).commit(); // commit and not apply because of System.exit(2)
         S.logImportant("BaldPhone CRASHED!");
-        if (baldPrefs.getBoolean(BPrefs.CRASH_REPORTS_KEY, BPrefs.CRASH_REPORTS_DEFAULT_VALUE))
-            ACRA.getErrorReporter().handleException(e);
+        Log.e("BaldPhoneCrash", "Uncaught exception", e);
 
         final PendingIntent pendingIntent =
                 PendingIntent.getActivity(
@@ -58,7 +56,7 @@ public class BaldUncaughtExceptionHandler implements Thread.UncaughtExceptionHan
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                                         | Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         | Intent.FLAG_ACTIVITY_NEW_TASK),
-                        PendingIntent.FLAG_ONE_SHOT
+                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
                 );
 
         final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

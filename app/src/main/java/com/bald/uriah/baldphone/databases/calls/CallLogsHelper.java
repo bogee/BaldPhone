@@ -47,7 +47,7 @@ public class CallLogsHelper {
             }
             return calls;
         } catch (SecurityException e) {
-            throw new RuntimeException(e);
+            return new ArrayList<>();
         }
     }
 
@@ -62,7 +62,7 @@ public class CallLogsHelper {
             }
             return calls;
         } catch (SecurityException e) {
-            throw new RuntimeException(e);
+            return new ArrayList<>();
         }
     }
 

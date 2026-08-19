@@ -210,8 +210,4 @@ public abstract class SingleMediaActivity extends BaldActivity {
         }
     }
 
-    @Override
-    protected int requiredPermissions() {
-        return PERMISSION_WRITE_EXTERNAL_STORAGE;
-    }
 }

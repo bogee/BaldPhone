@@ -68,6 +68,6 @@ public class PillTimeSetterActivity extends BaldActivity {
 
     @Override
     protected int requiredPermissions() {
-        return PERMISSION_SYSTEM_ALERT_WINDOW;
+        return PERMISSION_ALARM_ALERTS;
     }
 }

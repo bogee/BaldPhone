@@ -23,6 +23,16 @@ A platform which replaces the phone's interface to a bigger, simpler and friendl
 * [Installing Manual pdf](https://github.com/UriahShaulMandel/BaldPhone/raw/master/manual/Manual%20hebrew.pdf) (Hebrew)
 * [Contributing](CONTRIBUTING.md)
 
+## Maintained Android 16 build
+
+This fork provides a signed build modernized for Android 16 (API 36), including current notification, alarm, media, and edge-to-edge behavior.
+
+* [Download the latest signed APK](https://github.com/bogee/BaldPhone/releases/latest)
+* Obtainium source: `https://github.com/bogee/BaldPhone`
+* Package name: `com.bald.uriah.baldphone.gp`
+
+The release certificate fingerprint and maintainer procedure are documented in [RELEASING.md](RELEASING.md).
+
 ## Full Version
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.bald.uriah.baldphone)

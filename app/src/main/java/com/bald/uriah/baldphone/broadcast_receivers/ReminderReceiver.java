@@ -21,10 +21,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.bald.uriah.baldphone.activities.pills.PillScreenActivity;
 import com.bald.uriah.baldphone.databases.reminders.Reminder;
 import com.bald.uriah.baldphone.databases.reminders.ReminderScheduler;
 import com.bald.uriah.baldphone.databases.reminders.RemindersDatabase;
+import com.bald.uriah.baldphone.utils.AlarmAlertManager;
 
 /**
  * the middle man between the {@link ReminderScheduler} and {@link PillScreenActivity}.
@@ -43,10 +43,6 @@ public class ReminderReceiver extends BroadcastReceiver {
             return;
         }
 
-        final Context appContext = context.getApplicationContext();
-        appContext.startActivity(new Intent(appContext, PillScreenActivity.class)
-                .putExtra(Reminder.REMINDER_KEY_VIA_INTENTS, id)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        );
+        AlarmAlertManager.showReminder(context, reminder);
     }
 }

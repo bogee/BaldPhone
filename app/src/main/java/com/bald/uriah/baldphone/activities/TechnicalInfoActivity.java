@@ -134,6 +134,6 @@ public class TechnicalInfoActivity extends BaldActivity {
 
     @Override
     protected int requiredPermissions() {
-        return PERMISSION_WRITE_SETTINGS | PERMISSION_WRITE_EXTERNAL_STORAGE;
+        return PERMISSION_WRITE_SETTINGS;
     }
 }

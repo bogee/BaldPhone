@@ -47,20 +47,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.StyleRes;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.bald.uriah.baldphone.BuildConfig;
 import com.bald.uriah.baldphone.R;
 import com.bald.uriah.baldphone.activities.BaldActivity;
 import com.bald.uriah.baldphone.activities.contacts.ShareActivity;
 import com.bald.uriah.baldphone.content_providers.BaldFileProvider;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-
 import org.joda.time.DateTime;
 
 import java.io.ByteArrayOutputStream;
@@ -71,7 +65,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 /**
  * S - Static. Static methods which are used everywhere in the platform.
@@ -305,11 +298,10 @@ public class S {
         });
         final PopupWindow popupWindow = new PopupWindow(dropDownContainer, (int) (windowsWidth / 1.3),
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 82 * dropDownListener.size(), baldActivity.getResources().getDisplayMetrics()), true);
-        recyclerView.addItemDecoration(
-                new HorizontalDividerItemDecoration.Builder(baldActivity)
-                        .drawable(R.drawable.settings_divider)
-                        .build()
-        );
+        final DividerItemDecoration divider =
+                new DividerItemDecoration(baldActivity, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(baldActivity.getDrawable(R.drawable.settings_divider));
+        recyclerView.addItemDecoration(divider);
 
         recyclerView.setAdapter(new DropDownRecyclerViewAdapter(baldActivity, popupWindow, dropDownListener));
 
@@ -337,50 +329,6 @@ public class S {
             return !activity.isDestroyed() && !activity.isFinishing();
         }
         return true;
-    }
-
-    public static boolean isEmulator() {
-        return Build.FINGERPRINT.startsWith("generic")
-                || Build.FINGERPRINT.startsWith("unknown")
-                || Build.MODEL.contains("google_sdk")
-                || Build.MODEL.contains("Emulator")
-                || Build.MODEL.contains("Android SDK built for x86")
-                || "goldfish".equals(Build.HARDWARE)
-                || "ranchu".equals(Build.HARDWARE)
-                || Build.MANUFACTURER.contains("Genymotion")
-                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
-                || "google_sdk".equals(Build.PRODUCT);
-    }
-
-    public static void sendVersionInfo(final Context context) {
-        if (!S.isEmulator() && !BuildConfig.DEBUG) {
-            final SharedPreferences sharedPreferences = BPrefs.get(context);
-            if (!sharedPreferences.contains(BPrefs.UUID_KEY)) {
-                sharedPreferences.edit().putString(BPrefs.UUID_KEY, UUID.randomUUID().toString()).apply();
-            }
-
-            final RequestQueue requestQueue = Volley.newRequestQueue(context);
-
-            requestQueue.add(
-                    new StringRequest(
-                            Request.Method.GET,
-                            "https://raw.githubusercontent.com/UriahShaulMandel/BaldPhone/master/logging%20mechanism/loga.txt",
-                            response -> {
-                                requestQueue.add(
-                                        new StringRequest(
-                                                Request.Method.GET,
-                                                String.format(Locale.US, "%s?uuid=%s&vcode=%d&locale=%s&flavor=%s", response, sharedPreferences.getString(BPrefs.UUID_KEY, null), BuildConfig.VERSION_CODE, String.valueOf(Locale.getDefault()), BuildConfig.FLAVOR),
-                                                response2 -> {
-                                                },
-                                                error2 -> {
-                                                }
-                                        ).setTag("baldphone_server"));
-                            },
-                            error -> {
-                            }
-                    ).setTag("baldphone_get_server_info"));
-
-        }
     }
 
     public static int blendColors(final int color1, final int color2, final float ratio) {

@@ -269,6 +269,6 @@ abstract class BaseContactsActivity extends BaldActivity {
 
     @Override
     protected int requiredPermissions() {
-        return PERMISSION_WRITE_CALL_LOG | PERMISSION_WRITE_CONTACTS | PERMISSION_CALL_PHONE | PERMISSION_READ_CONTACTS;
+        return PERMISSION_WRITE_CONTACTS | PERMISSION_CALL_PHONE | PERMISSION_READ_CONTACTS;
     }
 }

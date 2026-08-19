@@ -60,6 +60,11 @@ public class SinglePhotoActivity extends SingleMediaActivity implements Constant
         return getText(R.string.photo);
     }
 
+    @Override
+    protected int requiredPermissions() {
+        return PERMISSION_READ_MEDIA_IMAGES;
+    }
+
     private static class PhotoPagerAdapter extends MediaPagerAdapter {
         private static final Uri EXTERNAL = MediaStore.Files.getContentUri("external");
 

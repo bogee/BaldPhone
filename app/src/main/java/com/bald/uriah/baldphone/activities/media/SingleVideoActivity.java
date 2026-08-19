@@ -57,6 +57,11 @@ public class SingleVideoActivity extends SingleMediaActivity implements Constant
     }
 
     @Override
+    protected int requiredPermissions() {
+        return PERMISSION_READ_MEDIA_VIDEO;
+    }
+
+    @Override
     protected void genListeners() {
         super.genListeners();
         viewPagerHolder.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -245,4 +250,3 @@ public class SingleVideoActivity extends SingleMediaActivity implements Constant
 
     }
 }
-

@@ -260,14 +260,14 @@
     <string name="thursday">Τρίτη</string>
     <string name="time_changer">Αλλαγή Ώρας Χαπιού</string>
     <string name="tiny">Μικροσκοπικό</string>
-    <string name="to___days_and___hours_from_now">σε %d μέρες και %d ώρες από τώρα</string>
-    <string name="to___hours_and___minutes_from_now">σε %d ώρες και %d λεπτά από τώρα</string>
+    <string name="to___days_and___hours_from_now">σε %1$d μέρες και %2$d ώρες από τώρα</string>
+    <string name="to___hours_and___minutes_from_now">σε %1$d ώρες και %2$d λεπτά από τώρα</string>
     <string name="to___minuets_from_now">σε %d λεπτά από τώρα</string>
     <string name="today">Σήμερα</string>
     <string name="took">Took!</string>
     <string name="tuesday">Tρίτη</string>
     <string name="uninstall">Απεγκατάσταση</string>
-    <string name="uninstall_subtext">Είστε σίγουροι ότι θέλετε να απεγκαταστήσετε %s;\n%s\ τα δεδομένα θα χαθούν για πάντα!</string>
+    <string name="uninstall_subtext">Είστε σίγουροι ότι θέλετε να απεγκαταστήσετε %1$s;\n%2$s\ τα δεδομένα θα χαθούν για πάντα!</string>
     <string name="up">Επάνω</string>
     <string name="video">Βίντεο</string>
     <string name="video_tutorials">Βοήθεια σε Βίντεο</string>

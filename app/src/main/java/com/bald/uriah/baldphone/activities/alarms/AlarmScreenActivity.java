@@ -37,6 +37,7 @@ import com.bald.uriah.baldphone.activities.TimedBaldActivity;
 import com.bald.uriah.baldphone.databases.alarms.Alarm;
 import com.bald.uriah.baldphone.databases.alarms.AlarmScheduler;
 import com.bald.uriah.baldphone.databases.alarms.AlarmsDatabase;
+import com.bald.uriah.baldphone.utils.AlarmAlertManager;
 import com.bald.uriah.baldphone.utils.Animations;
 import com.bald.uriah.baldphone.utils.BPrefs;
 import com.bald.uriah.baldphone.utils.BaldToast;
@@ -92,6 +93,7 @@ public class AlarmScreenActivity extends TimedBaldActivity {
         if (intent == null) throw new AssertionError();
         int key = intent.getIntExtra(Alarm.ALARM_KEY_VIA_INTENTS, -1);
         if (key == -1) throw new AssertionError();
+        AlarmAlertManager.cancelAlarm(this, key);
         alarm = AlarmsDatabase.getInstance(this).alarmsDatabaseDao().getByKey(key);
         if (alarm == null) {
             S.logImportant("alarm == null!, returning");
@@ -200,6 +202,6 @@ public class AlarmScreenActivity extends TimedBaldActivity {
 
     @Override
     protected int requiredPermissions() {
-        return PERMISSION_SYSTEM_ALERT_WINDOW;
+        return PERMISSION_NONE;
     }
 }

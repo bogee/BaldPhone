@@ -249,14 +249,14 @@
     <string name="thursday">ხუთშაბათი</string>
     <string name="time_changer">აბების დროის შემცვლელი</string>
     <string name="tiny">პატარა</string>
-    <string name="to___days_and___hours_from_now"> %d დღე და %d საათი მიმდინარე მომენტიდან</string>
-    <string name="to___hours_and___minutes_from_now"> %d საათი და წუთი %d მიმდინარე მომენტიდან</string>
+    <string name="to___days_and___hours_from_now"> %1$d დღე და %2$d საათი მიმდინარე მომენტიდან</string>
+    <string name="to___hours_and___minutes_from_now"> %1$d საათი და წუთი %2$d მიმდინარე მომენტიდან</string>
     <string name="to___minuets_from_now">%d წუთი მიმდინარე მომენტიდან</string>
     <string name="today">დღეს</string>
     <string name="took">ავიღე!</string>
     <string name="tuesday">სამშაბათი</string>
     <string name="uninstall">წაშლა</string>
-    <string name="uninstall_subtext">დარწმუნებული ხართ რომ გსურთ წაშალოთ %s?\n%s მონაცემები გაქრება სამუდამოდ!</string>
+    <string name="uninstall_subtext">დარწმუნებული ხართ რომ გსურთ წაშალოთ %1$s?\n%2$s მონაცემები გაქრება სამუდამოდ!</string>
     <string name="up">მაღლა</string>
     <string name="video">ვიდეო</string>
     <string name="video_tutorials">ვიდეო გაკვეთილები</string>

@@ -31,6 +31,7 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
@@ -39,6 +40,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.bald.uriah.baldphone.BuildConfig;
 import com.bald.uriah.baldphone.R;
@@ -57,6 +61,10 @@ import static android.Manifest.permission.CALL_PHONE;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_CALL_LOG;
 import static android.Manifest.permission.READ_CONTACTS;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+import static android.Manifest.permission.READ_MEDIA_VIDEO;
+import static android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED;
 import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.WRITE_CALL_LOG;
 import static android.Manifest.permission.WRITE_CONTACTS;
@@ -74,16 +82,17 @@ public abstract class BaldActivity extends AppCompatActivity implements SensorEv
             PERMISSION_READ_PHONE_STATE = 0b100000000000,
             PERMISSION_WRITE_SETTINGS = 0b1,
             PERMISSION_DEFAULT_PHONE_HANDLER = 0b10,
-            PERMISSION_READ_CONTACTS = 0b100 | PERMISSION_DEFAULT_PHONE_HANDLER,
-            PERMISSION_WRITE_CONTACTS = 0b1000 | PERMISSION_DEFAULT_PHONE_HANDLER,
-            PERMISSION_CALL_PHONE = 0b10000 | PERMISSION_DEFAULT_PHONE_HANDLER | PERMISSION_READ_PHONE_STATE,
-            PERMISSION_READ_CALL_LOG = 0b10000000000 | PERMISSION_DEFAULT_PHONE_HANDLER,
-            PERMISSION_WRITE_CALL_LOG = 0b100000 | PERMISSION_DEFAULT_PHONE_HANDLER | PERMISSION_READ_CALL_LOG,
+            PERMISSION_READ_CONTACTS = 0b100,
+            PERMISSION_WRITE_CONTACTS = 0b1000,
+            PERMISSION_CALL_PHONE = 0b10000 | PERMISSION_READ_PHONE_STATE,
+            PERMISSION_READ_CALL_LOG = 0b10000000000,
+            PERMISSION_WRITE_CALL_LOG = 0b100000 | PERMISSION_READ_CALL_LOG,
             PERMISSION_CAMERA = 0b1000000,
-            PERMISSION_WRITE_EXTERNAL_STORAGE = 0b10000000,
             PERMISSION_NOTIFICATION_LISTENER = 0b100000000 | PERMISSION_WRITE_SETTINGS,
             PERMISSION_REQUEST_INSTALL_PACKAGES = 0b1000000000,
-            PERMISSION_SYSTEM_ALERT_WINDOW = 0b1000000000000;
+            PERMISSION_READ_MEDIA_IMAGES = 0b1000000000000,
+            PERMISSION_READ_MEDIA_VIDEO = 0b10000000000000,
+            PERMISSION_ALARM_ALERTS = 0b100000000000000;
 
     public boolean testing = false;
     public boolean colorful;
@@ -165,14 +174,19 @@ public abstract class BaldActivity extends AppCompatActivity implements SensorEv
             if (ActivityCompat.checkSelfPermission(activity, CAMERA) != PERMISSION_GRANTED)
                 return false;
         }
-        if ((requiredPermissions & PERMISSION_WRITE_EXTERNAL_STORAGE) != 0) {
-            if (ActivityCompat.checkSelfPermission(activity, WRITE_EXTERNAL_STORAGE) != PERMISSION_GRANTED)
+        if ((requiredPermissions & PERMISSION_READ_MEDIA_IMAGES) != 0) {
+            if (!hasMediaPermission(activity, READ_MEDIA_IMAGES))
                 return false;
         }
-        if ((requiredPermissions & PERMISSION_SYSTEM_ALERT_WINDOW) != 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-                if (!Settings.canDrawOverlays(activity))
-                    return false;
+        if ((requiredPermissions & PERMISSION_READ_MEDIA_VIDEO) != 0) {
+            if (!hasMediaPermission(activity, READ_MEDIA_VIDEO))
+                return false;
+        }
+        if ((requiredPermissions & PERMISSION_ALARM_ALERTS) != 0) {
+            if (!com.bald.uriah.baldphone.utils.AlarmAlertManager.hasNotificationPermission(activity) ||
+                    !com.bald.uriah.baldphone.utils.AlarmAlertManager.canScheduleExactAlarms(activity) ||
+                    !com.bald.uriah.baldphone.utils.AlarmAlertManager.canUseFullScreenIntents(activity))
+                return false;
         }
         if ((requiredPermissions & PERMISSION_REQUEST_INSTALL_PACKAGES) != 0) {
             return
@@ -181,6 +195,21 @@ public abstract class BaldActivity extends AppCompatActivity implements SensorEv
                             activity.getPackageManager().canRequestPackageInstalls();
         }
         return true;
+    }
+
+    private static boolean hasMediaPermission(BaldActivity activity, String modernPermission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(activity, modernPermission) == PERMISSION_GRANTED)
+                return true;
+            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
+                    ActivityCompat.checkSelfPermission(
+                            activity,
+                            READ_MEDIA_VISUAL_USER_SELECTED) == PERMISSION_GRANTED;
+        }
+        final String legacyPermission = Build.VERSION.SDK_INT <= Build.VERSION_CODES.P
+                ? WRITE_EXTERNAL_STORAGE
+                : READ_EXTERNAL_STORAGE;
+        return ActivityCompat.checkSelfPermission(activity, legacyPermission) == PERMISSION_GRANTED;
     }
 
     /**
@@ -246,6 +275,36 @@ public abstract class BaldActivity extends AppCompatActivity implements SensorEv
                 useAccidentalGuard = false;
             }
         }
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        applySystemBarInsets();
+    }
+
+    /** Keeps large controls clear of system bars and the Pixel camera cutout. */
+    private void applySystemBarInsets() {
+        final ViewGroup content = findViewById(android.R.id.content);
+        if (content == null || content.getChildCount() == 0)
+            return;
+        final View root = content.getChildAt(0);
+        final int initialLeft = root.getPaddingLeft();
+        final int initialTop = root.getPaddingTop();
+        final int initialRight = root.getPaddingRight();
+        final int initialBottom = root.getPaddingBottom();
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
+            final Insets insets = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() |
+                            WindowInsetsCompat.Type.displayCutout());
+            view.setPadding(
+                    initialLeft + insets.left,
+                    initialTop + insets.top,
+                    initialRight + insets.right,
+                    initialBottom + insets.bottom);
+            return windowInsets;
+        });
+        ViewCompat.requestApplyInsets(root);
     }
 
     @Override

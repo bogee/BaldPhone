@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
+
 /**
  * with help from {@link "https://stackoverflow.com/questions/8881951/detect-home-button-press-in-android"}
  * but suited for BaldPhone...
@@ -42,7 +44,7 @@ public class BaldHomeWatcher {
 
     public void startWatch() {
         if (receiver != null)
-            context.registerReceiver(receiver, filter);
+            ContextCompat.registerReceiver(context, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     public void stopWatch() {

@@ -16,11 +16,14 @@
 
 package com.bald.uriah.baldphone.broadcast_receivers;
 
+import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
 import com.bald.uriah.baldphone.BaldPhone;
+import com.bald.uriah.baldphone.databases.alarms.AlarmScheduler;
+import com.bald.uriah.baldphone.databases.reminders.ReminderScheduler;
 import com.bald.uriah.baldphone.utils.S;
 
 /**
@@ -29,7 +32,13 @@ import com.bald.uriah.baldphone.utils.S;
 public class BootUpBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intent) {
+        final String action = intent.getAction();
+        if (!Intent.ACTION_BOOT_COMPLETED.equals(action)
+                && !Intent.ACTION_MY_PACKAGE_REPLACED.equals(action)
+                && !AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED.equals(action))
+            return;
         S.logImportant("BaldPhone OnBoot called");
-        S.sendVersionInfo(context);
+        AlarmScheduler.reStartAlarms(context);
+        ReminderScheduler.reStartReminders(context);
     }
 }

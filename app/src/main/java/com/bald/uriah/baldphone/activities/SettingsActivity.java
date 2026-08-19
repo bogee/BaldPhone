@@ -47,6 +47,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bald.uriah.baldphone.BuildConfig;
@@ -64,8 +65,6 @@ import com.bald.uriah.baldphone.utils.UpdatingUtil;
 import com.bald.uriah.baldphone.views.BaldTitleBar;
 import com.bald.uriah.baldphone.views.ModularRecyclerView;
 import com.bumptech.glide.Glide;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,11 +124,10 @@ public class SettingsActivity extends BaldActivity {
         final TypedValue typedValue = new TypedValue();
         final Resources.Theme theme = getTheme();
         theme.resolveAttribute(R.attr.bald_stroke_color, typedValue, true);
-        recyclerView.addItemDecoration(
-                new HorizontalDividerItemDecoration.Builder(this)
-                        .drawable(R.drawable.settings_divider)
-                        .build()
-        );
+        final DividerItemDecoration divider =
+                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(getDrawable(R.drawable.settings_divider));
+        recyclerView.addItemDecoration(divider);
         populateSettingsList();
         recyclerView.setAdapter(new SettingsRecyclerViewAdapter());
     }
@@ -416,19 +414,6 @@ public class SettingsActivity extends BaldActivity {
                             v -> startActivity(new Intent(this, PermissionActivity.class)),
                             R.drawable.grant_all_permissions_on_button)
             );
-        mainCategory.add(
-                new BDBSettingsItem(R.string.crash_reports,
-                        BDB.from(this)
-                                .addFlag(BDialog.FLAG_OK | BDialog.FLAG_CANCEL).setTitle(R.string.crash_reports)
-                                .setSubText(R.string.crash_reports_subtext)
-                                .setOptions(R.string.on, R.string.off)
-                                .setPositiveButtonListener(params -> {
-                                    editor.putBoolean(BPrefs.CRASH_REPORTS_KEY, params[0].equals(0)).apply();
-                                    this.recreate();
-                                    return true;
-                                })
-                                .setOptionsStartingIndex(() -> sharedPreferences.getBoolean(BPrefs.CRASH_REPORTS_KEY, BPrefs.CRASH_REPORTS_DEFAULT_VALUE) ? 0 : 1),
-                        R.drawable.upload_on_button));
         if (BuildConfig.FLAVOR.equals("baldUpdates"))
             mainCategory.add(
                     new RunnableSettingsItem(R.string.check_for_updates,

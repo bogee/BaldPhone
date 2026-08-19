@@ -250,14 +250,14 @@
     <string name="thursday">jueves</string>
     <string name="time_changer">Cambiar el horario de las pastillas</string>
     <string name="tiny">Diminuto</string>
-    <string name="to___days_and___hours_from_now">sonará en %d días y %d horas</string>
-    <string name="to___hours_and___minutes_from_now">sonará en %d horas y %d minutos</string>
+    <string name="to___days_and___hours_from_now">sonará en %1$d días y %2$d horas</string>
+    <string name="to___hours_and___minutes_from_now">sonará en %1$d horas y %2$d minutos</string>
     <string name="to___minuets_from_now">sonará en %d minutos</string>
     <string name="today">Hoy</string>
     <string name="took">Pastilla tomada.</string>
     <string name="tuesday">martes</string>
     <string name="uninstall">Desinstalar</string>
-    <string name="uninstall_subtext">¿Seguro que quieres desinstalar «%s»? Los datos de «%s» se perderán para siempre.</string>
+    <string name="uninstall_subtext">¿Seguro que quieres desinstalar «%1$s»? Los datos de «%2$s» se perderán para siempre.</string>
     <string name="up">Arriba</string>
     <string name="video">Vídeo</string>
     <string name="video_tutorials">Guías en formato vídeo</string>

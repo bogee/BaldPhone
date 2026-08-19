@@ -170,7 +170,7 @@
     <string name="morning">Сутрин</string>
     <string name="name">Име</string>
     <string name="named__">на име</string>
-    <string name="new_alarm___was_created">Беше създадена нова аларма!</string>
+    <string name="new_alarm___was_created">Беше създадена нова аларма %s!</string>
     <string name="nfc">NFC</string>
     <string name="no">Не</string>
     <string name="notes">Бележки</string>
@@ -260,14 +260,14 @@
     <string name="thursday">Четвъртък</string>
     <string name="time_changer">Промяна на времето за лекарствата</string>
     <string name="tiny">Дребен</string>
-    <string name="to___days_and___hours_from_now">до %d дни и %d часа от сега</string>
-    <string name="to___hours_and___minutes_from_now">до %d часа и %d минути от сега</string>
+    <string name="to___days_and___hours_from_now">до %1$d дни и %2$d часа от сега</string>
+    <string name="to___hours_and___minutes_from_now">до %1$d часа и %2$d минути от сега</string>
     <string name="to___minuets_from_now">до %d минути от сега</string>
     <string name="today">Днес</string>
     <string name="took">Взет!</string>
     <string name="tuesday">Вторник</string>
     <string name="uninstall">Деинсталиране</string>
-    <string name="uninstall_subtext">Сигурни ли сте, че желаете да деинсталирате %s?\nданните от %s\ ще бъдат изтрити завинаги!</string>
+    <string name="uninstall_subtext">Сигурни ли сте, че желаете да деинсталирате %1$s?\nданните от %2$s\ ще бъдат изтрити завинаги!</string>
     <string name="up">Нагоре</string>
     <string name="video">Видео</string>
     <string name="video_tutorials">Видео уроци</string>

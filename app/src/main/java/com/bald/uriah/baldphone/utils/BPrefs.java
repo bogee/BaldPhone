@@ -90,9 +90,6 @@ public final class BPrefs {
     public static final String USE_ACCIDENTAL_GUARD_KEY = "USE_ACCIDENTAL_GUARD_KEY";
     public static final boolean USE_ACCIDENTAL_GUARD_DEFAULT_VALUE = true;
 
-    public static final String CRASH_REPORTS_KEY = "CRASH_REPORTS_KEY";
-    public static final boolean CRASH_REPORTS_DEFAULT_VALUE = true;
-
     public static final String APPS_ONE_GRID_KEY = "APPS_ONE_GRID_KEY";
     public static final boolean APPS_ONE_GRID_DEFAULT_VALUE = false;
 
@@ -105,8 +102,6 @@ public final class BPrefs {
     public static final String LAST_APK_VERSION_KEY = "LAST_APK_VERSION_KEY";
 
     public static final String LAST_UPDATE_ASKED_VERSION_KEY = "LAST_UPDATE_ASKED_VERSION_KEY";
-
-    public static final String UUID_KEY = "UUID_KEY";
 
     public static final String LAST_DOWNLOAD_MANAGER_REQUEST_ID = "LAST_DOWNLOAD_MANAGER_REQUEST_ID";
     public static final String LAST_DOWNLOAD_MANAGER_REQUEST_VERSION_NUMBER = "LAST_DOWNLOAD_MANAGER_REQUEST_VERSION_NUMBER";

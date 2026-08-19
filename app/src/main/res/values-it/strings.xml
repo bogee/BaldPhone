@@ -245,14 +245,14 @@
     <string name="thursday">Giovedì</string>
     <string name="time_changer">Modifica orario pillole</string>
     <string name="tiny">Piccolo</string>
-    <string name="to___days_and___hours_from_now">Suona fra %d giorni e %d ore</string>
-    <string name="to___hours_and___minutes_from_now">Suona fra %d ore e %d minuti</string>
+    <string name="to___days_and___hours_from_now">Suona fra %1$d giorni e %2$d ore</string>
+    <string name="to___hours_and___minutes_from_now">Suona fra %1$d ore e %2$d minuti</string>
     <string name="to___minuets_from_now">Suona fra %d minuti</string>
     <string name="today">Oggi</string>
     <string name="took">Preso!</string>
     <string name="tuesday">Martedì</string>
     <string name="uninstall">Disinstalla</string>
-    <string name="uninstall_subtext">Sei sicuro di voler cancellare %s?\n%s\le informazioni verranno cancellate per sempre!</string>
+    <string name="uninstall_subtext">Sei sicuro di voler cancellare %1$s?\n%2$s\le informazioni verranno cancellate per sempre!</string>
     <string name="up">Sopra</string>
     <string name="video">Video</string>
     <string name="video_tutorials">Video introduttivi</string>

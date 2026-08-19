@@ -83,7 +83,7 @@ public class HomePage2 extends HomeView {
         bt_settings.setOnClickListener(v ->
                 homeScreen.startActivity(new Intent(getContext(), SettingsActivity.class)));
 
-        clickListenerForAbstractOpener(Uri.parse("http://www.google.com"), bt_internet, iv_internet, tv_internet);
+        clickListenerForAbstractOpener(Uri.parse("https://www.google.com"), bt_internet, iv_internet, tv_internet);
         clickListenerForAbstractOpener(Uri.parse("geo:0,0"), bt_maps, iv_maps, tv_maps);
 
         bt_help.setOnClickListener(v ->

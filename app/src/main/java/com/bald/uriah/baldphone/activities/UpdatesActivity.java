@@ -36,6 +36,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.bald.uriah.baldphone.BuildConfig;
 import com.bald.uriah.baldphone.R;
@@ -126,7 +127,11 @@ public class UpdatesActivity extends BaldActivity {
         downloadedFileCouldNotBeDeletedToast = BaldToast.from(this).setType(BaldToast.TYPE_ERROR).setText(R.string.downloaded_update_file_could_not_be_deleted);
         tryNowToast = BaldToast.from(this).setLength(1).setText(R.string.try_now).setBig(true);
 
-        this.registerReceiver(downloadFinishedReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        ContextCompat.registerReceiver(
+                this,
+                downloadFinishedReceiver,
+                new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+                ContextCompat.RECEIVER_EXPORTED);
     }
 
     @Override
@@ -155,7 +160,7 @@ public class UpdatesActivity extends BaldActivity {
         final int downloadedVersion = BPrefs.get(this).getInt(BPrefs.LAST_APK_VERSION_KEY, -1);
         final int newVersion = baldUpdateObject.versionCode;
         final boolean downloading = sharedPreferences.contains(BPrefs.LAST_DOWNLOAD_MANAGER_REQUEST_ID) && sharedPreferences.contains(BPrefs.LAST_DOWNLOAD_MANAGER_REQUEST_VERSION_NUMBER);
-        final boolean downloaded = downloadedVersion == newVersion && getDownloadedFile().exists();
+        final boolean downloaded = downloadedVersion == newVersion && getDownloadedFile(this).exists();
         assert true;
         if (downloaded) {
             pb.setVisibility(View.GONE);
@@ -233,7 +238,7 @@ public class UpdatesActivity extends BaldActivity {
                 Uri.parse(baldUpdateObject.apkUrl);
         final DownloadManager.Request request =
                 new DownloadManager.Request(uri)
-                        .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, FILENAME)
+                        .setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, FILENAME)
                         .setAllowedOverRoaming(true)
                         .setAllowedOverMetered(true)
                         .setDescription(getText(R.string.downloading_updates));
@@ -292,7 +297,7 @@ public class UpdatesActivity extends BaldActivity {
     }
 
     public void install() {
-        final File downloadedFile = getDownloadedFile();
+        final File downloadedFile = getDownloadedFile(this);
         final Uri apkUri = S.fileToUriCompat(downloadedFile, this);
         final Intent intent =
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
@@ -306,7 +311,7 @@ public class UpdatesActivity extends BaldActivity {
     }
 
     public void deleteCurrentUpdateFile() {
-        final File bp = getDownloadedFile();
+        final File bp = getDownloadedFile(this);
         if (bp.exists()) {
             if (bp.delete()) {
                 MediaScannerConnection.scanFile(this, new String[]{bp.getAbsolutePath()}, null, null);
@@ -318,6 +323,6 @@ public class UpdatesActivity extends BaldActivity {
 
     @Override
     protected int requiredPermissions() {
-        return PERMISSION_REQUEST_INSTALL_PACKAGES | PERMISSION_WRITE_EXTERNAL_STORAGE;
+        return PERMISSION_REQUEST_INSTALL_PACKAGES;
     }
 }

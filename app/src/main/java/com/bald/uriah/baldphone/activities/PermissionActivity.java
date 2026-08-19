@@ -35,6 +35,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bald.uriah.baldphone.BuildConfig;
 import com.bald.uriah.baldphone.R;
+import com.bald.uriah.baldphone.databases.alarms.AlarmScheduler;
+import com.bald.uriah.baldphone.databases.reminders.ReminderScheduler;
+import com.bald.uriah.baldphone.utils.AlarmAlertManager;
 import com.bald.uriah.baldphone.utils.BDB;
 import com.bald.uriah.baldphone.utils.BDialog;
 import com.bald.uriah.baldphone.utils.BPrefs;
@@ -50,10 +53,15 @@ import static android.Manifest.permission.CALL_PHONE;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_CALL_LOG;
 import static android.Manifest.permission.READ_CONTACTS;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+import static android.Manifest.permission.READ_MEDIA_VIDEO;
+import static android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED;
 import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.WRITE_CALL_LOG;
 import static android.Manifest.permission.WRITE_CONTACTS;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES;
 
@@ -61,7 +69,7 @@ public class PermissionActivity extends BaldActivity {
     public static final String
             EXTRA_REQUIRED_PERMISSIONS = "EXTRA_REQUIRED_PERMISSIONS",
             EXTRA_INTENT = "EXTRA_INTENT";
-    public static final int[] REQUEST_CODES = {789, 788, 787, 786};
+    public static final int[] REQUEST_CODES = {789, 788, 787, 786, 785, 784};
 
     private List<PermissionItem> permissionItemList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -112,6 +120,10 @@ public class PermissionActivity extends BaldActivity {
     private void refreshPermissions() {
         obtainPermissionList();
         if (permissionItemList.isEmpty()) {
+            if ((requiredPermissions & PERMISSION_ALARM_ALERTS) != 0) {
+                AlarmScheduler.reStartAlarms(this);
+                ReminderScheduler.reStartReminders(this);
+            }
             startActivity(ancestorCallingIntent == null ? new Intent(this, HomeScreenActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK) : ancestorCallingIntent);
             finish();
             return;
@@ -192,26 +204,76 @@ public class PermissionActivity extends BaldActivity {
                                     ACTION_MANAGE_UNKNOWN_APP_SOURCES).setData(Uri.parse(String.format("package:%s", getPackageName()))), REQUEST_CODES[2]), getString(R.string.install_updates), getString(R.string.install_updates_subtext)));
             }
         }
-        if ((requiredPermissions & PERMISSION_WRITE_EXTERNAL_STORAGE) != 0) {
-            if (ActivityCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PERMISSION_GRANTED)
-                permissionItemList.add(
-                        new SimplePermissionItem(WRITE_EXTERNAL_STORAGE, getString(R.string.write_external_storage), getString(R.string.external_storage_subtext)));
-        }
-        if ((requiredPermissions & PERMISSION_SYSTEM_ALERT_WINDOW) != 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                if (!Settings.canDrawOverlays(this)) {
-                    final Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                            Uri.parse("package:" + getPackageName()));
-                    permissionItemList.add(
-                            new PermissionItem(v -> startActivityForResult(intent, REQUEST_CODES[3]), getString(R.string.appear_on_top), getString(R.string.appear_on_top_subtext)));
-                }
+        if ((requiredPermissions & PERMISSION_READ_MEDIA_IMAGES) != 0)
+            addMediaPermission(READ_MEDIA_IMAGES, R.string.photos);
+        if ((requiredPermissions & PERMISSION_READ_MEDIA_VIDEO) != 0)
+            addMediaPermission(READ_MEDIA_VIDEO, R.string.videos);
+
+        if ((requiredPermissions & PERMISSION_ALARM_ALERTS) != 0) {
+            if (!AlarmAlertManager.hasNotificationPermission(this) &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                permissionItemList.add(new SimplePermissionItem(
+                        POST_NOTIFICATIONS,
+                        getString(R.string.alarm_notifications),
+                        getString(R.string.alarm_notifications_permission_subtext)));
+
+            if (!AlarmAlertManager.canScheduleExactAlarms(this) &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                final Intent intent = new Intent(
+                        Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                        Uri.parse("package:" + getPackageName()));
+                permissionItemList.add(new PermissionItem(
+                        v -> startActivityForResult(intent, REQUEST_CODES[4]),
+                        getString(R.string.alarms_and_reminders_access),
+                        getString(R.string.alarms_and_reminders_access_subtext)));
+            }
+
+            if (!AlarmAlertManager.canUseFullScreenIntents(this) &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                final Intent intent = new Intent(
+                        Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT,
+                        Uri.parse("package:" + getPackageName()));
+                permissionItemList.add(new PermissionItem(
+                        v -> startActivityForResult(intent, REQUEST_CODES[5]),
+                        getString(R.string.full_screen_alarm_access),
+                        getString(R.string.full_screen_alarm_access_subtext)));
             }
         }
 
     }
 
+    private void addMediaPermission(String modernPermission, int titleRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            final boolean fullAccess =
+                    ActivityCompat.checkSelfPermission(this, modernPermission) == PERMISSION_GRANTED;
+            final boolean selectedAccess = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
+                    ActivityCompat.checkSelfPermission(
+                            this,
+                            READ_MEDIA_VISUAL_USER_SELECTED) == PERMISSION_GRANTED;
+            if (!fullAccess && !selectedAccess) {
+                final String[] permissions = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+                        ? new String[]{modernPermission, READ_MEDIA_VISUAL_USER_SELECTED}
+                        : new String[]{modernPermission};
+                permissionItemList.add(new MultiplePermissionItem(
+                        permissions,
+                        getString(titleRes),
+                        getString(R.string.media_access_subtext)));
+            }
+        } else {
+            final String legacyPermission = Build.VERSION.SDK_INT <= Build.VERSION_CODES.P
+                    ? WRITE_EXTERNAL_STORAGE
+                    : READ_EXTERNAL_STORAGE;
+            if (ActivityCompat.checkSelfPermission(this, legacyPermission) != PERMISSION_GRANTED)
+                permissionItemList.add(new SimplePermissionItem(
+                        legacyPermission,
+                        getString(titleRes),
+                        getString(R.string.media_access_subtext)));
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (S.intArrayContains(REQUEST_CODES, requestCode))
             refreshPermissions();
     }
@@ -273,6 +335,14 @@ public class PermissionActivity extends BaldActivity {
     private class SimplePermissionItem extends PermissionItem {
         SimplePermissionItem(String permission, String title, String explanation) {
             super((v) -> ActivityCompat.requestPermissions(PermissionActivity.this, new String[]{permission}, 789),
+                    title,
+                    explanation);
+        }
+    }
+
+    private class MultiplePermissionItem extends PermissionItem {
+        MultiplePermissionItem(String[] permissions, String title, String explanation) {
+            super((v) -> ActivityCompat.requestPermissions(PermissionActivity.this, permissions, 789),
                     title,
                     explanation);
         }

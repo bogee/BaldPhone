@@ -249,14 +249,14 @@
     <string name="thursday">星期四</string>
     <string name="time_changer">更改服藥時間</string>
     <string name="tiny">最小</string>
-    <string name="to___days_and___hours_from_now">%d 天 %d 小時之後</string>
-    <string name="to___hours_and___minutes_from_now">%d 小時 %d 分鐘之後</string>
+    <string name="to___days_and___hours_from_now">%1$d 天 %2$d 小時之後</string>
+    <string name="to___hours_and___minutes_from_now">%1$d 小時 %2$d 分鐘之後</string>
     <string name="to___minuets_from_now">%d 分鐘之後</string>
     <string name="today">今天</string>
     <string name="took">已服食！</string>
     <string name="tuesday">星期二</string>
     <string name="uninstall">移除</string>
-    <string name="uninstall_subtext">你肯定要移除 %s？\n%s 的所有資料將會刪除！</string>
+    <string name="uninstall_subtext">你肯定要移除 %1$s？\n%2$s 的所有資料將會刪除！</string>
     <string name="up">上</string>
     <string name="video">影片</string>
     <string name="video_tutorials">影片教學</string>

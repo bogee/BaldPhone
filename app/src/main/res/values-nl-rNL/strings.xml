@@ -242,14 +242,14 @@ Deel het met hen!\"</string>
     <string name="thursday">Donderdag</string>
     <string name="time_changer">Medicatietijdveranderaar</string>
     <string name="tiny">Klein</string>
-    <string name="to___days_and___hours_from_now">tot %d dagen en %d uur vanaf nu</string>
-    <string name="to___hours_and___minutes_from_now">tot %d uur en %d minuten vanaf nu</string>
+    <string name="to___days_and___hours_from_now">tot %1$d dagen en %2$d uur vanaf nu</string>
+    <string name="to___hours_and___minutes_from_now">tot %1$d uur en %2$d minuten vanaf nu</string>
     <string name="to___minuets_from_now">tot %d minuten vanaf nu</string>
     <string name="today">Vandaag</string>
     <string name="took">Genomen!</string>
     <string name="tuesday">Dinsdag</string>
     <string name="uninstall">Deïnstalleren</string>
-    <string name="uninstall_subtext">Weet u zeker dat u %s wilt verwijderen?\n%s\'s gegevens zullen voor voor altijd worden verwijderd!</string>
+    <string name="uninstall_subtext">Weet u zeker dat u %1$s wilt verwijderen?\n%2$s\'s gegevens zullen voor voor altijd worden verwijderd!</string>
     <string name="up">Omhoog</string>
     <string name="video">Video</string>
     <string name="video_tutorials">Video-uitleg</string>

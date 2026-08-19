@@ -44,8 +44,6 @@ import com.bald.uriah.baldphone.utils.S;
 import com.bald.uriah.baldphone.views.BaldSwitch;
 import com.bald.uriah.baldphone.views.ModularRecyclerView;
 
-import org.acra.ACRA;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -145,7 +143,6 @@ public class AlarmsActivity extends com.bald.uriah.baldphone.activities.BaldActi
                 int key = data.getIntExtra(Alarm.ALARM_KEY_VIA_INTENTS, -1);
                 if (key == -1) {
                     Log.wtf(TAG, "Key should never be -1");
-                    ACRA.getErrorReporter().handleSilentException(new AssertionError("key cannot be -1"));
                     BaldToast.error(this);
                     finish();
                     return;
@@ -264,6 +261,6 @@ public class AlarmsActivity extends com.bald.uriah.baldphone.activities.BaldActi
 
     @Override
     protected int requiredPermissions() {
-        return PERMISSION_SYSTEM_ALERT_WINDOW;
+        return PERMISSION_ALARM_ALERTS;
     }
 }

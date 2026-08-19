@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import com.bald.uriah.baldphone.activities.HomeScreenActivity;
 import com.bald.uriah.baldphone.activities.pills.PillsActivity;
 import com.bald.uriah.baldphone.broadcast_receivers.ReminderReceiver;
+import com.bald.uriah.baldphone.utils.AlarmAlertManager;
 import com.bald.uriah.baldphone.utils.BPrefs;
 import com.bald.uriah.baldphone.utils.D;
 import com.bald.uriah.baldphone.utils.S;
@@ -147,17 +148,28 @@ public class ReminderScheduler {
     }
 
     private static void _cancelReminder(int key, Context context) {
-        ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).cancel(getIntent(context, key));
+        final AlarmManager alarmManager =
+                (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null)
+            alarmManager.cancel(getIntent(context, key));
     }
 
     public static void scheduleReminder(@NonNull Reminder reminder, @NonNull Context context) throws IllegalArgumentException {
         synchronized (LOCK) {
             final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager == null || !AlarmAlertManager.canScheduleExactAlarms(context)) {
+                Log.w(TAG, "Exact alarm access is not available; reminder was not scheduled");
+                return;
+            }
             final long nextTimeReminderWillWorkInMs = nextTimeReminderWillWorkInMs(reminder, context);
             alarmManager.setAlarmClock(
                     new AlarmManager.AlarmClockInfo(
                             nextTimeReminderWillWorkInMs,
-                            PendingIntent.getActivity(context, 0, new Intent(context, PillsActivity.class), 0)
+                            PendingIntent.getActivity(
+                                    context,
+                                    0,
+                                    new Intent(context, PillsActivity.class),
+                                    PendingIntent.FLAG_IMMUTABLE)
                     ),
                     getIntent(context, reminder.getId())
             );
@@ -167,16 +179,28 @@ public class ReminderScheduler {
     private static PendingIntent getIntent(Context context, int alarmKey) {
         Log.e(TAG, "getIntent: ");
         Intent intent = new Intent(context, ReminderReceiver.class).putExtra(Reminder.REMINDER_KEY_VIA_INTENTS, alarmKey);
-        return PendingIntent.getBroadcast(context, alarmKey, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(
+                context,
+                alarmKey,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     public static void scheduleSnooze(@NonNull Reminder alarm, Context context) throws IllegalArgumentException {
         synchronized (LOCK) {
             final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager == null || !AlarmAlertManager.canScheduleExactAlarms(context)) {
+                Log.w(TAG, "Exact alarm access is not available; snooze was not scheduled");
+                return;
+            }
             alarmManager.setAlarmClock(
                     new AlarmManager.AlarmClockInfo(
                             DateTime.now().getMillis() + SNOOZE_MILLIS,
-                            PendingIntent.getActivity(context, alarm.getId(), new Intent(context, HomeScreenActivity.class), 0)//TODO??
+                            PendingIntent.getActivity(
+                                    context,
+                                    alarm.getId(),
+                                    new Intent(context, HomeScreenActivity.class),
+                                    PendingIntent.FLAG_IMMUTABLE)//TODO??
                     ),
                     getIntent(context, alarm.getId())
             );
@@ -184,6 +208,8 @@ public class ReminderScheduler {
     }
 
     public static void reStartReminders(final Context context) {
+        if (!AlarmAlertManager.canScheduleExactAlarms(context))
+            return;
         S.logImportant("reStartReminders was called!");
         synchronized (LOCK) {
             S.logImportant("reStartReminders was started!");
@@ -199,6 +225,5 @@ public class ReminderScheduler {
         }
     }
 }
-
 
 

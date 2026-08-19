@@ -21,10 +21,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.bald.uriah.baldphone.activities.alarms.AlarmScreenActivity;
 import com.bald.uriah.baldphone.databases.alarms.Alarm;
 import com.bald.uriah.baldphone.databases.alarms.AlarmScheduler;
 import com.bald.uriah.baldphone.databases.alarms.AlarmsDatabase;
+import com.bald.uriah.baldphone.utils.AlarmAlertManager;
 
 /**
  * the middle man between the {@link AlarmScheduler} and {@link AlarmScreenActivity}.
@@ -45,10 +45,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             Log.e(TAG, "!alarm.isEnabled(), yet, most probably because of snooze...");
         }
 
-        final Context appContext = context.getApplicationContext();
-        appContext.startActivity(new Intent(appContext, AlarmScreenActivity.class)
-                .putExtra(Alarm.ALARM_KEY_VIA_INTENTS, key)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        );
+        AlarmAlertManager.showAlarm(context, alarm);
     }
 }

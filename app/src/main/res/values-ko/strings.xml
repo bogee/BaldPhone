@@ -235,14 +235,14 @@
     <string name="thursday">목요일</string>
     <string name="time_changer">약 시간 변경</string>
     <string name="tiny">작은</string>
-    <string name="to___days_and___hours_from_now">지금부터 %d 일 %d 시간</string>
-    <string name="to___hours_and___minutes_from_now">지금부터 %d 시간 %d 분</string>
+    <string name="to___days_and___hours_from_now">지금부터 %1$d 일 %2$d 시간</string>
+    <string name="to___hours_and___minutes_from_now">지금부터 %1$d 시간 %2$d 분</string>
     <string name="to___minuets_from_now">지금부터 %d 분</string>
     <string name="today">오늘</string>
     <string name="took">완료!</string>
     <string name="tuesday">화요일</string>
     <string name="uninstall">제거</string>
-    <string name="uninstall_subtext">정말로 제거하시겠습니까 %s? %s의 데이터는 영원히 사라집니다!</string>
+    <string name="uninstall_subtext">정말로 제거하시겠습니까 %1$s? %2$s의 데이터는 영원히 사라집니다!</string>
     <string name="up">위로</string>
     <string name="video">비디오</string>
     <string name="video_tutorials">비디오 튜토리얼</string>

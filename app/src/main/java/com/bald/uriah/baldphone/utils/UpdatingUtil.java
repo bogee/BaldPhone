@@ -53,9 +53,12 @@ public class UpdatingUtil {
     public static final String VOLLEY_TAG = "baldphone";
 
     @NonNull
-    public static File getDownloadedFile() {
-        final File downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        downloads.mkdir();
+    public static File getDownloadedFile(Context context) {
+        File downloads = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        if (downloads == null)
+            downloads = new File(context.getFilesDir(), Environment.DIRECTORY_DOWNLOADS);
+        if (!downloads.exists())
+            downloads.mkdirs();
         return new File(downloads.getAbsoluteFile() + "/" + FILENAME);
     }
 

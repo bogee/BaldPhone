@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 
 import com.bald.uriah.baldphone.R;
 import com.bald.uriah.baldphone.adapters.ContactRecyclerViewAdapter;
@@ -36,8 +37,6 @@ import com.bald.uriah.baldphone.utils.D;
 import com.bald.uriah.baldphone.utils.S;
 import com.bald.uriah.baldphone.views.BaldSwitch;
 import com.bald.uriah.baldphone.views.ModularRecyclerView;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -90,11 +89,10 @@ public class ShareActivity extends BaseContactsActivity {
         recyclerView.setAdapter(new IntentAdapter(this, resolveInfoList, (resolveInfo, context) -> context.startActivity(shareIntent.setPackage(resolveInfo.activityInfo.packageName))));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(10);//In Order to cover up the shitiness of loading resolve infos icons and texts
-        recyclerView.addItemDecoration(
-                new HorizontalDividerItemDecoration.Builder(this)
-                        .drawable(R.drawable.settings_divider)
-                        .build()
-        );
+        final DividerItemDecoration divider =
+                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(getDrawable(R.drawable.settings_divider));
+        recyclerView.addItemDecoration(divider);
         recyclerView.getAdapter().notifyDataSetChanged();
 
         bald_switch.setOnChangeListener(isChecked -> {

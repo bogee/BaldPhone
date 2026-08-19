@@ -243,14 +243,14 @@
     <string name="thursday">Quinta-feira</string>
     <string name="time_changer">Alterar Horário dos Medicamentos</string>
     <string name="tiny">Minúscula</string>
-    <string name="to___days_and___hours_from_now">Irá tocar em %d dias e %d horas</string>
-    <string name="to___hours_and___minutes_from_now">Irá tocar em %d horas e %d minutos</string>
+    <string name="to___days_and___hours_from_now">Irá tocar em %1$d dias e %2$d horas</string>
+    <string name="to___hours_and___minutes_from_now">Irá tocar em %1$d horas e %2$d minutos</string>
     <string name="to___minuets_from_now">Irá tocar em %d minutos</string>
     <string name="today">Hoje</string>
     <string name="took">Tomado!</string>
     <string name="tuesday">Terça-feira</string>
     <string name="uninstall">Desinstalar</string>
-    <string name="uninstall_subtext">Tem certeza que deseja desinstalar %s?\n%sTodos os dados serão apagados!</string>
+    <string name="uninstall_subtext">Tem certeza que deseja desinstalar %1$s?\n%2$sTodos os dados serão apagados!</string>
     <string name="up">Cima</string>
     <string name="video">Vídeo</string>
     <string name="video_tutorials">Tutorial em Vídeo</string>

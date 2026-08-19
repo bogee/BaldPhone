@@ -16,18 +16,21 @@
 
 package com.bald.uriah.baldphone.screenshots;
 
+import android.content.ContentProviderOperation;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.os.Handler;
+import android.os.RemoteException;
+import android.provider.ContactsContract;
 
 import androidx.test.filters.LargeTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.bald.uriah.baldphone.R;
 import com.bald.uriah.baldphone.activities.contacts.ContactsActivity;
-import com.tomash.androidcontacts.contactgetter.main.ContactDataFactory;
-import com.tomash.androidcontacts.contactgetter.main.contactsSaver.ContactsSaverBuilder;
-
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
@@ -42,8 +45,27 @@ public class ContactsActivityScreenshot extends BaseScreenshotTakerTest<Contacts
                 .post(() -> {
                     final ContactsActivity dis = mActivityTestRule.getActivity();
                     final String[] names = dis.getResources().getStringArray(R.array.names_for_screenshots);
+                    final ArrayList<ContentProviderOperation> operations = new ArrayList<>();
                     for (final String name : names) {
-                        new ContactsSaverBuilder(dis).saveContact(ContactDataFactory.createEmpty().setCompositeName(name));
+                        final int rawContactInsertIndex = operations.size();
+                        operations.add(ContentProviderOperation
+                                .newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                                .build());
+                        operations.add(ContentProviderOperation
+                                .newInsert(ContactsContract.Data.CONTENT_URI)
+                                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
+                                .withValue(
+                                        ContactsContract.Data.MIMETYPE,
+                                        ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, name)
+                                .build());
+                    }
+                    try {
+                        dis.getContentResolver().applyBatch(ContactsContract.AUTHORITY, operations);
+                    } catch (RemoteException | OperationApplicationException e) {
+                        throw new AssertionError("Could not create screenshot contacts", e);
                     }
                     dis.applyFilter();
 

@@ -113,6 +113,12 @@ public class VideosActivity extends MediaScrollingActivity implements Constants.
 
     @Override
     protected Uri getData(Cursor cursor) {
-        return Uri.parse("file://" + cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA)));
+        final long id = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media._ID));
+        return ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
+    }
+
+    @Override
+    protected int requiredPermissions() {
+        return PERMISSION_READ_MEDIA_VIDEO;
     }
 }

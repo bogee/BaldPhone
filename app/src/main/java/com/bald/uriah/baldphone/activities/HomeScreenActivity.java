@@ -30,9 +30,13 @@ import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
@@ -79,8 +83,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import github.nisrulz.lantern.Lantern;
-
 import static com.bald.uriah.baldphone.services.NotificationListenerService.ACTION_REGISTER_ACTIVITY;
 import static com.bald.uriah.baldphone.services.NotificationListenerService.ACTIVITY_NONE;
 import static com.bald.uriah.baldphone.services.NotificationListenerService.KEY_EXTRA_ACTIVITY;
@@ -109,7 +111,8 @@ public class HomeScreenActivity extends BaldActivity {
     public BaldPagerAdapter baldPagerAdapter;
 
     private Point screenSize;
-    private Lantern lantern;
+    private CameraManager cameraManager;
+    private String torchCameraId;
     private SharedPreferences sharedPreferences;
     private BaldPrefsUtils baldPrefsUtils;
     private ViewPagerHolder viewPagerHolder;
@@ -194,13 +197,6 @@ public class HomeScreenActivity extends BaldActivity {
             finish();
             return;
         }
-        try {
-            startService(new Intent(this, NotificationListenerService.class));
-        } catch (Exception e) {
-            Log.e(TAG, S.str(e.getMessage()));
-            e.printStackTrace();
-            BaldToast.from(this).setType(BaldToast.TYPE_ERROR).setText("Could not start Notification Listener Service!").show();
-        }
         new UpdateApps(this).execute(this.getApplicationContext());
         lowBatteryAlert = sharedPreferences.getBoolean(BPrefs.LOW_BATTERY_ALERT_KEY, BPrefs.LOW_BATTERY_ALERT_DEFAULT_VALUE);
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -219,11 +215,9 @@ public class HomeScreenActivity extends BaldActivity {
         }
 
         attachToXml();
-        lantern = new Lantern(this)
-                .observeLifecycle(this);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            flashInited = lantern.initTorch();
+            flashInited = initTorch();
         }
 
         if (sharedPreferences.getBoolean(BPrefs.EMERGENCY_BUTTON_VISIBLE_KEY, BPrefs.EMERGENCY_BUTTON_VISIBLE_DEFAULT_VALUE))
@@ -322,9 +316,8 @@ public class HomeScreenActivity extends BaldActivity {
         if (flashInited) {
             flashButton.setOnClickListener((v) -> {
                 flashState = !flashState;
-                lantern.enableTorchMode(true);
-                if (!flashState) // looks weird (it is) but necessary. otherwise it wont turn off after device rotation...
-                    lantern.enableTorchMode(false);
+                if (!setTorchEnabled(flashState))
+                    flashState = false;
                 flashButton.setImageResource(flashState ?
                         R.drawable.flashlight_on_background :
                         R.drawable.flashlight_off_on_background);
@@ -373,6 +366,10 @@ public class HomeScreenActivity extends BaldActivity {
 
     @Override
     protected void onStop() {
+        if (flashState) {
+            setTorchEnabled(false);
+            flashState = false;
+        }
         baldHomeWatcher.stopWatch();
         super.onStop();
     }
@@ -381,6 +378,36 @@ public class HomeScreenActivity extends BaldActivity {
     protected void onDestroy() {
         recognizerManager.setHomeScreen(null);
         super.onDestroy();
+    }
+
+    private boolean initTorch() {
+        cameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
+        if (cameraManager == null)
+            return false;
+        try {
+            for (String cameraId : cameraManager.getCameraIdList()) {
+                final CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
+                if (Boolean.TRUE.equals(characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE))) {
+                    torchCameraId = cameraId;
+                    return true;
+                }
+            }
+        } catch (CameraAccessException | SecurityException e) {
+            Log.e(TAG, "Could not initialize the flashlight", e);
+        }
+        return false;
+    }
+
+    private boolean setTorchEnabled(boolean enabled) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || cameraManager == null || torchCameraId == null)
+            return false;
+        try {
+            cameraManager.setTorchMode(torchCameraId, enabled);
+            return true;
+        } catch (CameraAccessException | SecurityException e) {
+            Log.e(TAG, "Could not change the flashlight state", e);
+            return false;
+        }
     }
 
     /**

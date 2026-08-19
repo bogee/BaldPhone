@@ -237,14 +237,14 @@
     <string name="thursday">Četvrtak</string>
     <string name="time_changer">Promena satnice doba dana</string>
     <string name="tiny">Sićušan</string>
-    <string name="to___days_and___hours_from_now">do %d dana i %d časova od ovog trenutka</string>
-    <string name="to___hours_and___minutes_from_now">do %d časova i %d minuta od ovog trenutka</string>
+    <string name="to___days_and___hours_from_now">do %1$d dana i %2$d časova od ovog trenutka</string>
+    <string name="to___hours_and___minutes_from_now">do %1$d časova i %2$d minuta od ovog trenutka</string>
     <string name="to___minuets_from_now">do %d minuta od ovog trenutka</string>
     <string name="today">Danas</string>
     <string name="took">Uzeo!</string>
     <string name="tuesday">Utorak</string>
     <string name="uninstall">Deinstaliraj</string>
-    <string name="uninstall_subtext">Da li ste sigurni da želite da deinstalirate %s?\nPodaci %s će zauvek biti obrisani!</string>
+    <string name="uninstall_subtext">Da li ste sigurni da želite da deinstalirate %1$s?\nPodaci %2$s će zauvek biti obrisani!</string>
     <string name="up">Gore</string>
     <string name="video">Video</string>
     <string name="video_tutorials">Video vodiči</string>

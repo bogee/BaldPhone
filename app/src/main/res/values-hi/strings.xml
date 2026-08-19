@@ -259,14 +259,14 @@
     <string name="thursday">गुरूवार</string>
     <string name="time_changer">गोलियां समय परिवर्तक</string>
     <string name="tiny">छोटा</string>
-    <string name="to___days_and___hours_from_now">अब से %d दिन और %d घंटे तक</string>
-    <string name="to___hours_and___minutes_from_now">अब से %d घंटे और %d मिनट तक</string>
+    <string name="to___days_and___hours_from_now">अब से %1$d दिन और %2$d घंटे तक</string>
+    <string name="to___hours_and___minutes_from_now">अब से %1$d घंटे और %2$d मिनट तक</string>
     <string name="to___minuets_from_now">अब से %d मिनट तक</string>
     <string name="today">आज</string>
     <string name="took">लिया!</string>
     <string name="tuesday">मंगलवार</string>
     <string name="uninstall">स्थापना रद्द करें</string>
-    <string name="uninstall_subtext">क्या आप वाकई %s को अनइंस्टॉल करना चाहते हैं?\n%s\'s डेटा हमेशा के लिए चला जाएगा!</string>
+    <string name="uninstall_subtext">क्या आप वाकई %1$s को अनइंस्टॉल करना चाहते हैं?\n%2$s\'s डेटा हमेशा के लिए चला जाएगा!</string>
     <string name="up">ऊपर</string>
     <string name="video">वीडियो</string>
     <string name="video_tutorials">वीडियो शिक्षण</string>

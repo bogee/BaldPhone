@@ -98,11 +98,7 @@
         app:layout_constraintBottom_toBottomOf="@id/_bottom"
         app:layout_constraintLeft_toLeftOf="@id/_left"
         app:layout_constraintRight_toRightOf="@id/_right"
-        app:layout_constraintTop_toTopOf="@id/_top"
-        app:showFullScreenButton="false"
-        app:showVideoCurrentTime="false"
-        app:showVideoDuration="false"
-        app:showYouTubeButton="false" />
+        app:layout_constraintTop_toTopOf="@id/_top" />
 
     <View
         android:id="@+id/bt_left_color"

@@ -241,14 +241,14 @@ https://baldphone.com</string>
     <string name="thursday">Csütörtök</string>
     <string name="time_changer">Gyógyszer Idejének Módosítása</string>
     <string name="tiny">Apró</string>
-    <string name="to___days_and___hours_from_now">%d nap és %d óra múlva</string>
-    <string name="to___hours_and___minutes_from_now">%d nap és %d perc múlva</string>
+    <string name="to___days_and___hours_from_now">%1$d nap és %2$d óra múlva</string>
+    <string name="to___hours_and___minutes_from_now">%1$d nap és %2$d perc múlva</string>
     <string name="to___minuets_from_now">%d perc múlva</string>
     <string name="today">Ma</string>
     <string name="took">Bevéve!</string>
     <string name="tuesday">Kedd</string>
     <string name="uninstall">Törlés</string>
-    <string name="uninstall_subtext">Biztosan törölni akarod %s-t?\n%s adatai örökre elvesznek.</string>
+    <string name="uninstall_subtext">Biztosan törölni akarod %1$s-t?\n%2$s adatai örökre elvesznek.</string>
     <string name="up">Fel</string>
     <string name="video">Videó</string>
     <string name="video_tutorials">Videó segítségek</string>
@@ -332,7 +332,7 @@ https://baldphone.com</string>
     <string name="dialer_sounds">Tárcsázási Hang</string>
     <string name="dialer_sounds_subtext">Válaszd ki hogy akarsz-e tárcsázási hangot</string>
     <string name="low_battery_alert">Alacsony töltöttségi szint jelzés</string>
-    <string name="low_battery_alert_subtext">Válaszd ki, hogy az állapotjelző sáv 20% töltöttségi szint alatt pirosan jelezzen-e.</string>
+    <string name="low_battery_alert_subtext" formatted="false">Válaszd ki, hogy az állapotjelző sáv 20% töltöttségi szint alatt pirosan jelezzen-e.</string>
 
     <string name="also_available_at">Szintén elérhető a \nbaldphone.contact@gmail.com\nA visszajelzés nyelve angol vagy héber legyen.</string>
     <string name="grant_all_permissions">Minden engedély megadása</string>

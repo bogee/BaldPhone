@@ -39,6 +39,8 @@ public class DownloadManagerReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (!DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction()))
+            return;
         final SharedPreferences sharedPreferences = BPrefs.get(context);
         if (BuildConfig.FLAVOR.equals("baldUpdates"))
             if (sharedPreferences.getLong(BPrefs.LAST_DOWNLOAD_MANAGER_REQUEST_ID, -3) == intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -2) && sharedPreferences.contains(BPrefs.LAST_DOWNLOAD_MANAGER_REQUEST_VERSION_NUMBER)) {

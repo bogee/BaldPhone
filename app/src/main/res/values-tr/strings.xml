@@ -248,14 +248,14 @@
     <string name="thursday">Perşembe</string>
     <string name="time_changer">İlaç zamanını değiştir</string>
     <string name="tiny">Tiny</string>
-    <string name="to___days_and___hours_from_now">şimdiden %d gün ve %d saat sonraya</string>
-    <string name="to___hours_and___minutes_from_now">şimdiden %d saat ve %d dakika sonraya</string>
+    <string name="to___days_and___hours_from_now">şimdiden %1$d gün ve %2$d saat sonraya</string>
+    <string name="to___hours_and___minutes_from_now">şimdiden %1$d saat ve %2$d dakika sonraya</string>
     <string name="to___minuets_from_now">şimdiden %d dakika sonraya</string>
     <string name="today">Bu gün</string>
     <string name="took">Alındı!</string>
     <string name="tuesday">Salı</string>
     <string name="uninstall">Kaldırın</string>
-    <string name="uninstall_subtext">Kaldırmak istediğinize emin misiniz %s?\n%s\'a ait bilgiler silinecek!</string>
+    <string name="uninstall_subtext">Kaldırmak istediğinize emin misiniz %1$s?\n%2$s\'a ait bilgiler silinecek!</string>
     <string name="up">Yukarı</string>
     <string name="video">Video</string>
     <string name="video_tutorials">Video Dersler</string>

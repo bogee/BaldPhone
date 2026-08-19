@@ -253,14 +253,14 @@
     <string name="thursday">Joi</string>
     <string name="time_changer">Schimbare timp medicamente</string>
     <string name="tiny">Mic</string>
-    <string name="to___days_and___hours_from_now">la %d zile și %d ore de acum</string>
-    <string name="to___hours_and___minutes_from_now">la %d ore și %d minute de acum</string>
+    <string name="to___days_and___hours_from_now">la %1$d zile și %2$d ore de acum</string>
+    <string name="to___hours_and___minutes_from_now">la %1$d ore și %2$d minute de acum</string>
     <string name="to___minuets_from_now">la %d minute de acum</string>
     <string name="today">Asțazi</string>
     <string name="took">Luat!</string>
     <string name="tuesday">Marți</string>
     <string name="uninstall">Dezinstalare</string>
-    <string name="uninstall_subtext">Sunteți sigur că vreți să dezinstalați %s?\n Datele %s vor fii șterse pentru totdeauna!</string>
+    <string name="uninstall_subtext">Sunteți sigur că vreți să dezinstalați %1$s?\n Datele %2$s vor fii șterse pentru totdeauna!</string>
     <string name="up">Sus</string>
     <string name="video">Video</string>
     <string name="video_tutorials">Tutoriale video</string>

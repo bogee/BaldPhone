@@ -136,7 +136,13 @@ public class PhotosActivity extends MediaScrollingActivity implements Constants.
 
     @Override
     protected Uri getData(Cursor cursor) {
-        return Uri.parse("file://" + cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
+        final long id = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media._ID));
+        return ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+    }
+
+    @Override
+    protected int requiredPermissions() {
+        return PERMISSION_READ_MEDIA_IMAGES;
     }
 
 }

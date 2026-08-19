@@ -253,14 +253,14 @@
     <string name="thursday">Četrtek</string>
     <string name="time_changer">Spreminjanje časa za zdravila</string>
     <string name="tiny">Majceno</string>
-    <string name="to___days_and___hours_from_now">do %d dni in %d ur od sedaj</string>
-    <string name="to___hours_and___minutes_from_now">do %d ur in %d minut od sedaj</string>
+    <string name="to___days_and___hours_from_now">do %1$d dni in %2$d ur od sedaj</string>
+    <string name="to___hours_and___minutes_from_now">do %1$d ur in %2$d minut od sedaj</string>
     <string name="to___minuets_from_now">do %d minut od sedaj</string>
     <string name="today">Danes</string>
     <string name="took">Vzel!</string>
     <string name="tuesday">Torek</string>
     <string name="uninstall">Odstrani</string>
-    <string name="uninstall_subtext">Ali ste prepričani, da želite odstraniti %s?\n%s\ podatki bodo izbrisani za vedno!</string>
+    <string name="uninstall_subtext">Ali ste prepričani, da želite odstraniti %1$s?\n%2$s\ podatki bodo izbrisani za vedno!</string>
     <string name="up">Gor</string>
     <string name="video">Video</string>
     <string name="video_tutorials">Video vodiči</string>

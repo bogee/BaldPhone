@@ -249,14 +249,14 @@
     <string name="thursday">Torsdag</string>
     <string name="time_changer">Läkemedelstider</string>
     <string name="tiny">Mini</string>
-    <string name="to___days_and___hours_from_now">om %d dagar och %d timmar</string>
-    <string name="to___hours_and___minutes_from_now">om %d timmar och %d minuter</string>
+    <string name="to___days_and___hours_from_now">om %1$d dagar och %2$d timmar</string>
+    <string name="to___hours_and___minutes_from_now">om %1$d timmar och %2$d minuter</string>
     <string name="to___minuets_from_now">om %d minuter</string>
     <string name="today">Idag</string>
     <string name="took">Took!</string>
     <string name="tuesday">Tisdag</string>
     <string name="uninstall">Avinstallera</string>
-    <string name="uninstall_subtext">Är du säker på att du vill avinstallera %s?\n%s data rensas!</string>
+    <string name="uninstall_subtext">Är du säker på att du vill avinstallera %1$s?\n%2$s data rensas!</string>
     <string name="up">Upp</string>
     <string name="video">Video</string>
     <string name="video_tutorials">Videoinstruktioner</string>

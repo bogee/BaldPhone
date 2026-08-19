@@ -249,14 +249,14 @@
     <string name="thursday">Donnerstag</string>
     <string name="time_changer">Änderung der Zeiten für die Medikamente</string>
     <string name="tiny">Winzig</string>
-    <string name="to___days_and___hours_from_now">zu %d Tagen und %d Stunden von jetzt an</string>
-    <string name="to___hours_and___minutes_from_now">zu %d Stunden und %d Minuten von jetzt an</string>
+    <string name="to___days_and___hours_from_now">zu %1$d Tagen und %2$d Stunden von jetzt an</string>
+    <string name="to___hours_and___minutes_from_now">zu %1$d Stunden und %2$d Minuten von jetzt an</string>
     <string name="to___minuets_from_now">zu %d Minuten von jetzt an</string>
     <string name="today">Heute</string>
     <string name="took">Angenommen!</string>
     <string name="tuesday">Dienstag</string>
     <string name="uninstall">Deinstallieren</string>
-    <string name="uninstall_subtext">Bist du dir sicher, dass du %s deinstallieren willst?\nDie Daten von %s !</string>
+    <string name="uninstall_subtext">Bist du dir sicher, dass du %1$s deinstallieren willst?\nDie Daten von %2$s !</string>
     <string name="up">Hoch</string>
     <string name="video">Video</string>
     <string name="video_tutorials">Video Anleitungen</string>
@@ -345,7 +345,7 @@
     <string name="dialer_sounds">Wähltastentöne</string>
     <string name="dialer_sounds_subtext">Entscheide, ob du Wähltastentöne haben möchtest.</string>
     <string name="low_battery_alert">Akku-Warnung</string>
-    <string name="low_battery_alert_subtext">Entscheide, ob die Statusleiste des Startbildschirms rot gefärbt werden soll, wenn die Akkuladung unter 20% sinkt.\nHinweis: Es wird nicht angezeigt, wenn die Statusleiste des Systems versteckt ist.</string>
+    <string name="low_battery_alert_subtext" formatted="false">Entscheide, ob die Statusleiste des Startbildschirms rot gefärbt werden soll, wenn die Akkuladung unter 20% sinkt.\nHinweis: Es wird nicht angezeigt, wenn die Statusleiste des Systems versteckt ist.</string>
 
     <string name="also_available_at">Auch verfügbar bei\nbaldphone.contact@gmail.com\nFeedback muss auf English/Israeli sein!</string>
     <string name="grant_all_permissions">Alle Berechtigungen erteilen</string>

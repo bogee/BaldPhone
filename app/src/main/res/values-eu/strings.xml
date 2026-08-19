@@ -216,14 +216,14 @@ letra-tipoaren tamaina eta distira aldatzeko.</string>
     <string name="thursday">Osteguna</string>
     <string name="time_changer">Pilulen denbora aldatzailea</string>
     <string name="tiny">Ñimiñoa</string>
-    <string name="to___days_and___hours_from_now">oraindik %d egun eta %d ordutara</string>
-    <string name="to___hours_and___minutes_from_now">oraindik %d ordu eta %d minutura</string>
+    <string name="to___days_and___hours_from_now">oraindik %1$d egun eta %2$d ordutara</string>
+    <string name="to___hours_and___minutes_from_now">oraindik %1$d ordu eta %2$d minutura</string>
     <string name="to___minuets_from_now">oraindik %d minututara</string>
     <string name="today">Gaur</string>
     <string name="took">Hartuta!</string>
     <string name="tuesday">Asteartea</string>
     <string name="uninstall">Desinstalatu</string>
-    <string name="uninstall_subtext">Ziur zaude %s desinstalatu nahi duzula?\n%s-ren datuak betirako ezabatuko dira!</string>
+    <string name="uninstall_subtext">Ziur zaude %1$s desinstalatu nahi duzula?\n%2$s-ren datuak betirako ezabatuko dira!</string>
     <string name="up">Gora</string>
     <string name="video">Bideo</string>
     <string name="video_tutorials">Bideo tutorialak</string>
